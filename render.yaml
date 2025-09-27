@@ -1,0 +1,29 @@
+services:
+  # Backend API Service
+  - type: web
+    name: waffleria-backend
+    env: node
+    buildCommand: cd server && npm install
+    startCommand: cd server && npm start
+    plan: free
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        fromService:
+          type: web
+          name: waffleria-backend
+          property: port
+    healthCheckPath: /
+
+  # Frontend Static Site
+  - type: web
+    name: waffleria-frontend
+    env: static
+    buildCommand: cd waffleria-vite && npm install && npm run build
+    staticPublishPath: waffleria-vite/dist
+    plan: free
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
