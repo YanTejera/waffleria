@@ -9,6 +9,8 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      - key: JWT_SECRET
+        value: waffleria-super-secret-jwt-key-2024-production
       - key: PORT
         fromService:
           type: web

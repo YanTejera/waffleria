@@ -10,7 +10,8 @@ const auth = async (req, res, next) => {
       return res.status(401).json({ message: 'Acceso denegado. No se proporcionó token.' });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const secret = process.env.JWT_SECRET || 'waffleria-default-jwt-secret-key';
+    const decoded = jwt.verify(token, secret);
 
     // Usuarios en memoria (debe coincidir con auth.js)
     const devUsers = {

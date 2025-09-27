@@ -7,7 +7,8 @@ const router = express.Router();
 
 // Generar token JWT
 const generateToken = (userId) => {
-  return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: '24h' });
+  const secret = process.env.JWT_SECRET || 'waffleria-default-jwt-secret-key';
+  return jwt.sign({ id: userId }, secret, { expiresIn: '24h' });
 };
 
 // Registrar nuevo usuario (solo admin)
