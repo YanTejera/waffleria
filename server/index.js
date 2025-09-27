@@ -26,6 +26,8 @@ app.use(cors({
     'http://localhost:3002',
     'http://localhost:3003',
     'http://localhost:3005',
+    'http://localhost:5173',
+    'https://waffleria.onrender.com',
     process.env.FRONTEND_URL
   ].filter(Boolean),
   credentials: true
