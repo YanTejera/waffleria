@@ -23,6 +23,9 @@ services:
     buildCommand: cd waffleria-vite && npm install && npm run build
     staticPublishPath: waffleria-vite/dist
     plan: free
+    envVars:
+      - key: VITE_API_URL
+        value: https://waffleriabackend.onrender.com
     routes:
       - type: rewrite
         source: /*
