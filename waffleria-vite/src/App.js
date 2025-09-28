@@ -37,7 +37,7 @@ function App() {
     <AuthProvider>
       <CartProvider>
         <Router>
-        <div className="App">
+          <div className="App">
           {/* Configuración de toasts */}
           <Toaster
             position="top-right"
@@ -167,7 +167,7 @@ function App() {
             {/* Página 404 */}
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </div>
+          </div>
         </Router>
       </CartProvider>
     </AuthProvider>

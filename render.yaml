@@ -19,9 +19,8 @@ services:
     healthCheckPath: /
 
   # Frontend Static Site
-  - type: web
+  - type: static
     name: waffleria-frontend
-    env: static
     buildCommand: cd waffleria-vite && npm install && npm run build
     staticPublishPath: waffleria-vite/dist
     plan: free
