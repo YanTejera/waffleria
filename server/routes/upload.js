@@ -12,6 +12,15 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
+// Health check para uploads
+router.get('/health', (req, res) => {
+  res.json({
+    message: 'Upload service is working',
+    uploadsDir: uploadDir,
+    dirExists: fs.existsSync(uploadDir)
+  });
+});
+
 // Configuración de multer para manejo de archivos
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -46,24 +55,35 @@ const upload = multer({
 });
 
 // Subir imagen de producto
-router.post('/product-image', auth, upload.single('image'), (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({ message: 'No se subió ninguna imagen' });
+router.post('/product-image', auth, (req, res) => {
+  // Manejar errores de multer
+  upload.single('image')(req, res, (err) => {
+    if (err) {
+      console.error('Error de multer:', err);
+      return res.status(400).json({
+        message: 'Error al subir la imagen',
+        error: err.message
+      });
     }
 
-    // Construir URL de la imagen
-    const imageUrl = `/uploads/${req.file.filename}`;
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: 'No se subió ninguna imagen' });
+      }
 
-    res.json({
-      message: 'Imagen subida exitosamente',
-      imageUrl: imageUrl,
-      filename: req.file.filename
-    });
-  } catch (error) {
-    console.error('Error subiendo imagen:', error);
-    res.status(500).json({ message: 'Error interno del servidor', error: error.message });
-  }
+      // Construir URL de la imagen
+      const imageUrl = `/uploads/${req.file.filename}`;
+
+      res.json({
+        message: 'Imagen subida exitosamente',
+        imageUrl: imageUrl,
+        filename: req.file.filename
+      });
+    } catch (error) {
+      console.error('Error subiendo imagen:', error);
+      res.status(500).json({ message: 'Error interno del servidor', error: error.message });
+    }
+  });
 });
 
 // Eliminar imagen
