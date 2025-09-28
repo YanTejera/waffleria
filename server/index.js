@@ -1,5 +1,5 @@
 const express = require('express');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose'); // No necesario para datos mock
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
@@ -7,7 +7,7 @@ require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
-const productRoutes = require('./routes/products');
+const productRoutes = require('./routes/products-mock');
 const orderRoutes = require('./routes/orders-mock');
 const inventoryRoutes = require('./routes/inventory');
 const reportRoutes = require('./routes/reports-mock');
@@ -47,13 +47,13 @@ app.use(express.urlencoded({ extended: true }));
 // Servir archivos estáticos (imágenes)
 app.use('/uploads', express.static('server/uploads'));
 
-// Conexión a MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('Conectado a MongoDB'))
-.catch(err => console.error('Error conectando a MongoDB:', err));
+// Conexión a MongoDB (deshabilitada - usando datos mock)
+// mongoose.connect(process.env.MONGODB_URI, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// })
+// .then(() => console.log('Conectado a MongoDB'))
+// .catch(err => console.error('Error conectando a MongoDB:', err));
 
 // Rutas
 app.use('/api/auth', authRoutes);
