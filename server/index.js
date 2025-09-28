@@ -67,7 +67,35 @@ app.use('/api/upload', uploadRoutes);
 
 // Ruta de prueba
 app.get('/', (req, res) => {
-  res.json({ message: 'API de La Waffleria funcionando correctamente' });
+  res.json({
+    message: 'API de La Waffleria funcionando correctamente',
+    version: '2.0.0',
+    timestamp: new Date().toISOString(),
+    routes: {
+      products: 'Using products-mock with complete menu',
+      database: 'Mock data (49 products)',
+      mongodb: 'Disabled'
+    }
+  });
+});
+
+// Endpoint de debug para verificar rutas
+app.get('/debug/routes', (req, res) => {
+  res.json({
+    message: 'Debug de rutas activas',
+    activeRoutes: {
+      auth: '/api/auth/*',
+      users: '/api/users/*',
+      products: '/api/products/* (usando products-mock)',
+      orders: '/api/orders/* (usando orders-mock)',
+      inventory: '/api/inventory/*',
+      reports: '/api/reports/* (usando reports-mock)',
+      cashRegister: '/api/cash-register/*',
+      upload: '/api/upload/*'
+    },
+    productRouteFile: 'routes/products-mock.js',
+    timestamp: new Date().toISOString()
+  });
 });
 
 // Manejo de errores
